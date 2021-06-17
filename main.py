@@ -1,6 +1,6 @@
-import discord
 import os
 import pyshorteners
+from discord.ext import commands
 from discord.utils import find
 from keep_running import keep_alive
 
@@ -10,16 +10,16 @@ def getshorturl(url):
 
 help_msg = "**This is Just a BOT**\nWritten in _Python_ and trying to keep it simple for the time being here's the list of commands:```\n$hello -> Says Hello\n\n$shorten <url> -> Shortens provided url with tinyurl\n\n$help -> Shows this help message\n\n(More Coming Soon)\n```"
 
-client = discord.Client()
+bot = commands.Bot(command_prefix = '$')
 
-@client.event
+@bot.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
+    print('We have logged in as {0.user}'.format(bot))
 
-#Basic command responses will be replaced by bot extension later on
-@client.event
+#Migrated to Bot which is a subclass of Client so not much has changed
+@bot.event
 async def on_message(message):
-    if message.author == client.user:
+    if message.author == bot.user:
         return
 
     if message.content.startswith('$hello'):
@@ -36,7 +36,7 @@ async def on_message(message):
       await message.channel.send(help_msg)
 
 #Introduces itself after joining a server
-@client.event
+@bot.event
 async def on_guild_join(guild):
     general = find(lambda x: x.name == 'general',  guild.text_channels)
     if general and general.permissions_for(guild.me).send_messages:
@@ -45,4 +45,4 @@ async def on_guild_join(guild):
 TOKEN = os.environ['TOKEN']
 
 keep_alive()
-client.run(TOKEN)
+bot.run(TOKEN)
