@@ -8,6 +8,12 @@ $bye -> Says Bye
 
 $ping -> Returns Bot Latency in miliseconds
 
+$notes -> Shows list of saved notes
+
+$save <note name> -> Saves the mentioned menssage with provided name to be retreived later
+
+$get <note name> -> Retreives to queried note
+
 $shorten <url1> <url2> ... -> Shortens provided urls with tinyurl
 
 $help -> Shows this help message
