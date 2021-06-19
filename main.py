@@ -54,29 +54,26 @@ async def on_ready():
                               )
 
 
-#Migrated to Bot which is a subclass of Client so not much has changed
+@bot.command(pass_context=True)
+async def help(ctx):
+    await ctx.send(help_msg)
 
 
 @bot.command(pass_context=True)
-async def help(message):
-    await message.send(help_msg)
+async def hello(ctx):
+    await ctx.send(f'Hello! {ctx.author.mention}')
+    print(f'Hello requested from {ctx.guild.name}')
 
 
 @bot.command(pass_context=True)
-async def hello(message):
-    await message.send(f'Hello! {message.author.mention}')
-    print(f'Hello requested from {message.guild.name}')
+async def bye(ctx):
+    await ctx.send(f'Bye bye {ctx.author.mention}!!')
 
 
 @bot.command(pass_context=True)
-async def bye(message):
-    await message.send(f'Bye bye {message.author.mention}!!')
-
-
-@bot.command(pass_context=True)
-async def ping(message):
-    await message.send(f'Pong! in {round(bot.latency * 1000)}ms')
-    print(f'Pinged from Guild : {message.guild.name} ID : {message.guild.id}')
+async def ping(ctx):
+    await ctx.send(f'Pong! in {round(bot.latency * 1000)}ms')
+    print(f'Pinged from Guild : {ctx.guild.name} ID : {ctx.guild.id}')
 
 
 @bot.command(pass_context=True)
@@ -115,6 +112,24 @@ async def get(ctx, *arg):
         else:
             await ctx.send(f'_{arg[0]}_ does not exist as a saved note')
 
+@bot.command(pass_conext=True)
+async def del_note(ctx, *args):
+  if ctx.message.author.guild_permissions.administrator:
+    if len(args) == 0:
+      await ctx.send('Please provide atleast one note to be deleted')
+    else:
+      count = 0
+      for arg in args:
+        note_ref = servers_ref.document('{}'.format(ctx.guild.id)).collection(KEY_NOTE).document(arg)
+        if note_ref.get().exists:
+          note_ref.delete()
+          count += 1
+        else:
+          await ctx.send(f'Alert !!!" {arg}" does not exist')
+      await ctx.send(f'Deleted {count} notes')
+  else:
+    await ctx.send('You lack permissions to delete a note ask your server admin/moderator for help')
+                  
 
 @bot.command(pass_conext=True)
 async def notes(ctx):
@@ -133,23 +148,23 @@ async def notes(ctx):
         msg_text += '```\nUse **$get <note name>** to retreive a note'
         await ctx.send(msg_text)
     else:
-        ctx.send(
+        await ctx.send(
             'No notes saved for this server use **$save <note name>** while replying to a message to save that message'
         )
 
 
 @bot.command(pass_context=True)
-async def shorten(message, *args):
+async def shorten(ctx, *args):
     if len(args) == 0:
-        await message.send(
+        await ctx.send(
             'Please a provide _atleast one link_ to generate short link\n**Syntax**:\n```$shorten link1 ...```'
         )
         return
     for arg in args:
         url = getshorturl(arg)
-        await message.send(f'Shortened {arg} -> {url}\n')
+        await ctx.send(f'Shortened {arg} -> {url}\n')
     print(
-        f'Generated {len(args)} shortened links\nRequested by: {message.guild.name}, {message.author.name}'
+        f'Generated {len(args)} shortened links\nRequested by: {ctx.guild.name}, {ctx.author.name}'
     )
 
 
