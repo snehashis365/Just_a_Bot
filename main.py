@@ -77,11 +77,6 @@ async def bye(message):
 async def ping(message):
     await message.send(f'Pong! in {round(bot.latency * 1000)}ms')
     print(f'Pinged from Guild : {message.guild.name} ID : {message.guild.id}')
-    msgRef = message.message.reference
-    if msgRef:
-        print(msgRef.message_id)
-        msg = await message.fetch_message(msgRef.message_id)
-        print(msg.content)
 
 
 @bot.command(pass_context=True)
