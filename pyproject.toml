@@ -7,6 +7,10 @@ authors = ["snehashis365 <<>>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 flask = "^2.0.1"
+"discord.py" = {git = "https://github.com/Rapptz/discord.py.git", extras = ["voice"]}
+firebase-admin = "^5.0.1"
+pyshorteners = "^1.0.1"
+youtube_dl = "^2021.6.6"
 
 [tool.poetry.dev-dependencies]
 
