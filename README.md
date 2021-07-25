@@ -31,6 +31,8 @@ $del_note <note names> -> Deletes mentoned notes
 
 $shorten <url1> <url2> ... -> Shortens provided urls with tinyurl
 
+$translate -> Translated the mentioned message to english
+
 $help -> Shows this help message
 
 (More Coming Soon)

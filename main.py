@@ -8,6 +8,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from keep_running import keep_alive
 from music_cog import music_cog
+from deep_translator import GoogleTranslator
 
 KEY_NOTE_VAL = 'message'
 KEY_NOTE = 'notes'
@@ -24,11 +25,11 @@ def getshorturl(url):
     return shortener.tinyurl.short(url)
 
 
-help_msg = "**This is Just a BOT**\nWritten in _Python_ and trying to keep it simple for the time being here's the list of commands:```\n$hello -> Says Hello\n\n$bye -> Says Bye\n\n$ping -> Returns Bot Latency in miliseconds\n\n$play <song name/youtube link> -> Plays the song from youtube\n\n$pause -> Pause the current song\n\n$resume -> Resume playback\n\n$stop -> Stops the song and disconnects from VC\n\n$queue -> Shows the upcoming queued songs\n\n$notes -> Shows list of saved notes\n\n$save <note name> -> Saves the mentioned menssage with provided name to be retreived later\n\n$get <note name> -> Retreives to queried note\n\n$shorten <url1> <url2> ... -> Shortens provided urls with tinyurl\n\n$help -> Shows this help message\n\n(More Coming Soon)\n```\n_Invite Link_:** https://tinyurl.com/yfqh7ac5 **"
+help_msg = "**This is Just a BOT**\nWritten in _Python_ and trying to keep it simple for the time being here's the list of commands:```\n$hello -> Says Hello\n\n$bye -> Says Bye\n\n$ping -> Returns Bot Latency in miliseconds\n\n$play <song name/youtube link> -> Plays the song from youtube\n\n$pause -> Pause the current song\n\n$resume -> Resume playback\n\n$stop -> Stops the song and disconnects from VC\n\n$queue -> Shows the upcoming queued songs\n\n$notes -> Shows list of saved notes\n\n$save <note name> -> Saves the mentioned menssage with provided name to be retreived later\n\n$get <note name> -> Retreives to queried note\n\n$shorten <url1> <url2> ... -> Shortens provided urls with tinyurl\n\n$translate -> Translated the mentioned message to english\n\n$help -> Shows this help message\n\n(More Coming Soon)\n```\n_Invite Link_:** https://tinyurl.com/yfqh7ac5 **"
 
 bot = commands.Bot(command_prefix='$')
 bot.remove_command('help')
-
+translator = GoogleTranslator(source='auto', target='en')
 
 @bot.event
 async def on_ready():
@@ -169,6 +170,16 @@ async def shorten(ctx, *args):
         f'Generated {len(args)} shortened links\nRequested by: {ctx.guild.name}, {ctx.author.name}'
     )
 
+@bot.command(pass_context=True)
+async def translate(ctx):
+  msgReferred = ctx.message.reference
+  if msgReferred:
+    msg = await ctx.fetch_message(msgReferred.message_id)
+    print(msg.content)
+    result = translator.translate(msg.content)
+    await ctx.send(result)
+  else:
+    await ctx.send('Mention a message to be translated')
 
 '''
 @bot.event
