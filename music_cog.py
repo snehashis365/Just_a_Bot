@@ -123,4 +123,5 @@ class music_cog(commands.Cog):
             self.vc[ctx.guild.id].stop()
             self.is_playing.remove(ctx.guild.id)
             await self.vc[ctx.guild.id].disconnect()
+            self.music_queue[ctx.guild.id].clear()
             await ctx.send("Stopped")
