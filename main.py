@@ -9,8 +9,6 @@ from firebase_admin import firestore
 from keep_running import keep_alive
 from music_cog import music_cog
 from deep_translator import GoogleTranslator
-#import pytz
-#from datetime import datetime
 
 KEY_NOTE_VAL = 'message'
 KEY_NOTE = 'notes'
@@ -27,7 +25,7 @@ def getshorturl(url):
     return shortener.tinyurl.short(url)
 
 
-help_msg = "**This is Just a BOT**\nWritten in _Python_ and trying to keep it simple for the time being here's the list of commands:```\n$hello -> Says Hello\n\n$bye -> Says Bye\n\n$ping -> Returns Bot Latency in miliseconds\n\n$play <song name/youtube link> -> Plays the song from youtube\n\n$pause -> Pause the current song\n\n$resume -> Resume playback\n\n$stop -> Stops the song and disconnects from VC\n\n$queue -> Shows the upcoming queued songs\n\n$notes -> Shows list of saved notes\n\n$save <note name> -> Saves the mentioned menssage with provided name to be retreived later\n\n$get <note name> -> Retreives to queried note\n\n$shorten <url1> <url2> ... -> Shortens provided urls with tinyurl\n\n$translate -> Translated the mentioned message to english\n\n$exams -> Shows 4th Semester 2021 Exam Schedule and countdown\n\n$help -> Shows this help message\n\n(More Coming Soon)\n```\n_Invite Link_:** https://tinyurl.com/yfqh7ac5 **"
+help_msg = "**This is Just a BOT**\nWritten in _Python_ and trying to keep it simple for the time being here's the list of commands:```\n$hello -> Says Hello\n\n$bye -> Says Bye\n\n$ping -> Returns Bot Latency in miliseconds\n\n$play <song name/youtube link> -> Plays the song from youtube\n\n$pause -> Pause the current song\n\n$resume -> Resume playback\n\n$stop -> Stops the song and disconnects from VC\n\n$queue -> Shows the upcoming queued songs\n\n$notes -> Shows list of saved notes\n\n$save <note name> -> Saves the mentioned menssage with provided name to be retreived later\n\n$get <note name> -> Retreives to queried note\n\n$shorten <url1> <url2> ... -> Shortens provided urls with tinyurl\n\n$translate -> Translated the mentioned message to english\n\n$help -> Shows this help message\n\n(More Coming Soon)\n```\n_Invite Link_:** https://tinyurl.com/yfqh7ac5 **"
 
 bot = commands.Bot(command_prefix='$')
 bot.remove_command('help')
@@ -182,25 +180,6 @@ async def translate(ctx):
     await ctx.send(result)
   else:
     await ctx.send('Mention a message to be translated')
-
-@bot.command(pass_context=True)
-async def exams(ctx):
-  await ctx.send('**Exam khatam ho gaya BSDK**')
-
-
-'''additional_msg =''
-IST = pytz.timezone('Asia/Kolkata')
-time_now = datetime.now(IST)
-exam_time = datetime(2021, 8, time_now.day, 14, 0)
-if(time_now.hour>=14 and ((time_now.hour == 15 and time_now.minute<=30) or time_now.hour<15)):
-  additional_msg = 'Exam Ongoing'
-elif(time_now.hour>=16):
-  exam_time = datetime(2021, 8, time_now.day+1, 14, 0)
-exam_time = IST.localize(exam_time)
-diff = exam_time - time_now
-if(additional_msg != 'Exam Ongoing'):
-  additional_msg = 'Starts in ' + str(diff.seconds//3600) + ' hours, ' + str((diff.seconds//60)%60) + ' minutes'
-await ctx.send('List Of All Subjects(4th Semester):\n```4514 : DATABASE MANAGEMENT SYSTEM ( 10-08-2021 : 2.00PM-3.30PM )[DONE]\n4515 : PROGRAMMING WITH JAVA ( 11-08-2021 : 2.00PM-3.30PM )[DONE]\n4516 : COMPUTER NETWORKING ( 12-08-2021 : 2.00PM-3.30PM )[DONE]\n4517 : NUMERICAL ANALYSIS ( 13-08-2021 : 2.00PM-3.30PM )[DONE]```\nStatus : **' + additional_msg + '**')'''
 
 '''
 @bot.event
